@@ -1,11 +1,11 @@
-import React from 'react';
-import { usePets } from '../../hooks/usePets';
-import { useGuardians } from '../../hooks/useGuardians';
-import PetList from './PetList';
+import React from "react";
+import { usePets } from "../../hooks/usePets";
+import { useGuardians } from "../../hooks/useGuardians";
+import PetList from "./PetList";
 
 const PetManager: React.FC = () => {
   const { pets, addPet, updatePet, deletePet } = usePets();
-  const { guardians } = useGuardians();
+  const { guardians, getGuardiansListByName } = useGuardians();
 
   return (
     <div className="flex-1 p-8">
@@ -15,6 +15,7 @@ const PetManager: React.FC = () => {
         onAdd={addPet}
         onUpdate={updatePet}
         onDelete={deletePet}
+        onfindGuardian={getGuardiansListByName}
       />
     </div>
   );

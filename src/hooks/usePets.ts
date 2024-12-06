@@ -1,30 +1,47 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pet } from '../types';
 import { mockPets } from '../data/mockData';
+import { fetchPets, addNewPet, deleteApiPet, updateApiPet, getPetByIdFromAPI } from '../api-services/pets.services';
 
 export const usePets = () => {
   const [pets, setPets] = useState<Pet[]>(mockPets);
+  const [error, setError] = useState<string | null>(null);
+ const fetchData = async () => {
 
-  const addPet = (pet: Omit<Pet, 'id'>) => {
-    const newPet = {
-      ...pet,
-      id: Math.random().toString(36).substr(2, 9),
-    };
-    setPets([...pets, newPet]);
+      try {
+        const data = await fetchPets();
+        console.log("pets", data);
+        setPets(data);
+      } catch (err) {
+        setError(err.message);
+      
+      }
+    }
+  useEffect(() => {
+   
+    fetchData();
+  }, []);
+
+  const addPet = async (pet: Omit<Pet, 'id'>) => {
+    await addNewPet(pet)
+    fetchData();
+
   };
 
-  const updatePet = (id: string, updatedPet: Partial<Pet>) => {
-    setPets(pets.map(pet => 
-      pet.id === id ? { ...pet, ...updatedPet } : pet
-    ));
+  const updatePet = async (id: string, updatedPet: Partial<Pet>) => {
+    const updated = await updateApiPet(id, updatedPet);
+    setPets(pets.map(pet => (pet.id === id ? updated : pet)));
+    
   };
 
   const deletePet = (id: string) => {
     setPets(pets.filter(pet => pet.id !== id));
+    deleteApiPet(id);
   };
 
-  const getPetById = (id: string) => {
-    return pets.find(pet => pet.id === id);
+  const getPetById = async (id: string) => {
+    const selectedPet = await getPetByIdFromAPI(id);
+    return selectedPet;
   };
 
   return {

@@ -1,9 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Layout from './components/Layout';
-import Dashboard from './components/Dashboard';
-import GuardianManager from './components/guardians/GuardianManager';
-import PetManager from './components/pets/PetManager';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Layout from "./components/Layout";
+import Dashboard from "./components/Dashboard";
+import GuardianManager from "./components/guardians/GuardianManager";
+import PetManager from "./components/pets/PetManager";
 
 function App() {
   return (

@@ -1,30 +1,85 @@
-import { useState } from 'react';
-import { Guardian } from '../types';
-import { mockGuardians } from '../data/mockData';
+import { useState, useEffect } from "react";
+import { Guardian } from "../types";
+import * as guardianService from "../api-services/guardians.services";
 
 export const useGuardians = () => {
-  const [guardians, setGuardians] = useState<Guardian[]>(mockGuardians);
+  const [guardians, setGuardians] = useState<Guardian[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const addGuardian = (guardian: Omit<Guardian, 'id'>) => {
-    const newGuardian = {
-      ...guardian,
-      id: Math.random().toString(36).substr(2, 9),
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const data = await guardianService.fetchGuardians();
+        console.log(data);
+        setGuardians(data);
+      } catch (err) {
+        setError("Failed to fetch guardians");
+      } finally {
+        setLoading(false);
+      }
     };
-    setGuardians([...guardians, newGuardian]);
+
+    fetchData();
+  }, []);
+
+  const addGuardian = async (guardian: Omit<Guardian, "id">) => {
+    setLoading(true);
+    try {
+      const newGuardian = await guardianService.addGuardian(guardian);
+      setGuardians([...guardians, newGuardian]);
+    } catch (err) {
+      setError("Failed to add guardian");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const updateGuardian = (id: string, updatedGuardian: Partial<Guardian>) => {
-    setGuardians(guardians.map(guardian => 
-      guardian.id === id ? { ...guardian, ...updatedGuardian } : guardian
-    ));
+  const updateGuardian = async (
+    id: string,
+    updatedGuardian: Partial<Guardian>
+  ) => {
+    setLoading(true);
+    try {
+      const updated = await guardianService.updateGuardian(id, updatedGuardian);
+      setGuardians(
+        guardians.map((guardian) => (guardian.id === id ? updated : guardian))
+      );
+    } catch (err) {
+      setError("Failed to update guardian");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const deleteGuardian = (id: string) => {
-    setGuardians(guardians.filter(guardian => guardian.id !== id));
+  const deleteGuardian = async (id: string) => {
+    setLoading(true);
+    try {
+      await guardianService.deleteGuardian(id);
+      setGuardians(guardians.filter((guardian) => guardian.id !== id));
+    } catch (err) {
+      setError("Failed to delete guardian");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getGuardianById = (id: string) => {
-    return guardians.find(guardian => guardian.id === id);
+    return guardians.find((guardian) => guardian.id === id);
+  };
+
+   const getGuardiansListByName = async (name: string): Promise<Guardian[]> => {
+    setLoading(true);
+    setError(null);
+    try {
+      return await guardianService.getGuardiansByName(name); // Retorna solo los resultados buscados
+    } catch (err) {
+      setError("Failed to fetch guardians by name");
+      return [];
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
@@ -33,5 +88,8 @@ export const useGuardians = () => {
     updateGuardian,
     deleteGuardian,
     getGuardianById,
+    getGuardiansListByName,
+    loading,
+    error,
   };
 };

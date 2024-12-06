@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Pet, Guardian } from '../../types';
-import { Edit2, Trash2, PlusCircle } from 'lucide-react';
-import { PetForm } from './PetForm';
+import React, { useState } from "react";
+import { Pet, Guardian } from "../../types";
+import { Edit2, Trash2, PlusCircle } from "lucide-react";
+import { PetForm } from "./PetForm";
 
 interface PetListProps {
   pets: Pet[];
   guardians: Guardian[];
-  onAdd: (pet: Omit<Pet, 'id'>) => void;
+  onAdd: (pet: Omit<Pet, "id">) => void;
   onUpdate: (id: string, pet: Partial<Pet>) => void;
   onDelete: (id: string) => void;
+  onfindGuardian: (name: string) => void;
 }
 
 const PetList: React.FC<PetListProps> = ({
@@ -17,6 +18,7 @@ const PetList: React.FC<PetListProps> = ({
   onAdd,
   onUpdate,
   onDelete,
+  onfindGuardian,
 }) => {
   const [showForm, setShowForm] = useState(false);
   const [editingPet, setEditingPet] = useState<Pet | null>(null);
@@ -26,7 +28,7 @@ const PetList: React.FC<PetListProps> = ({
     setShowForm(true);
   };
 
-  const handleSubmit = (petData: Omit<Pet, 'id'>) => {
+  const handleSubmit = (petData: Omit<Pet, "id">) => {
     if (editingPet) {
       onUpdate(editingPet.id, petData);
     } else {
@@ -42,8 +44,8 @@ const PetList: React.FC<PetListProps> = ({
   };
 
   const getGuardianName = (guardianId: string) => {
-    const guardian = guardians.find(g => g.id === guardianId);
-    return guardian ? guardian.name : 'Unknown Guardian';
+    const guardian = guardians.find((g) => g.id === guardianId);
+    return guardian ? guardian.name : "Unknown Guardian";
   };
 
   return (
@@ -68,11 +70,11 @@ const PetList: React.FC<PetListProps> = ({
             <div>
               <h3 className="font-semibold">{pet.name}</h3>
               <p className="text-sm text-gray-600">
-                {pet.species} {pet.breed ? `- ${pet.breed}` : ''}
+                {pet.species} {pet.breed ? `- ${pet.breed}` : ""}
               </p>
               <p className="text-sm text-gray-600">Age: {pet.age}</p>
               <p className="text-sm text-gray-600">
-                Guardian: {getGuardianName(pet.guardianId)}
+                Guardian: {getGuardianName(pet.guardian?.id || "")}
               </p>
             </div>
             <div className="flex gap-2">
@@ -99,6 +101,7 @@ const PetList: React.FC<PetListProps> = ({
           onCancel={handleCancel}
           initialData={editingPet || undefined}
           guardians={guardians}
+          onfindGuardian={onfindGuardian}
         />
       )}
     </div>

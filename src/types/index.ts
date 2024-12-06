@@ -5,6 +5,7 @@ export interface Pet {
   breed: string;
   age: number;
   guardianId: string;
+  guardian?: Guardian;
 }
 
 export interface Guardian {
