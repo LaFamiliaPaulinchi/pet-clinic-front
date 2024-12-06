@@ -28,7 +28,7 @@ const PetList: React.FC<PetListProps> = ({
     setShowForm(true);
   };
 
-  const handleSubmit = (petData: Omit<Pet, "id">) => {
+  const handleSubmit = (petData: Pet) => {
     if (editingPet) {
       onUpdate(editingPet.id, petData);
     } else {

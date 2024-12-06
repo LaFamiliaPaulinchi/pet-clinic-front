@@ -22,15 +22,20 @@ export const PetForm: React.FC<PetFormProps> = ({
     species: initialData?.species || "",
     breed: initialData?.breed || "",
     age: initialData?.age || 0,
-    guardianId: initialData?.guardianId || "",
+    guardianId: initialData?.guardianId || initialData?.guardian?.id || "",
+    guardian: initialData?.guardian || "",
   });
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredGuardians, setFilteredGuardians] = useState<Guardian[]>([]);
-
+  console.log(initialData);
   useEffect(() => {
     if (searchTerm.length < 3) {
-      setFilteredGuardians([]); // Vacía los resultados si el término es demasiado corto
+      if (initialData?.guardian) {
+        initialData.guardianId = initialData.guardian.id;
+        setFilteredGuardians([initialData.guardian]); // Muestra el guardián actual si
+      }
+      // setFilteredGuardians([]); // Vacía los resultados si el término es demasiado corto
       return;
     }
 

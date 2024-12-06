@@ -29,6 +29,7 @@ export const usePets = () => {
   };
 
   const updatePet = async (id: string, updatedPet: Partial<Pet>) => {
+    console.log("updatePet", id, updatedPet);
     const updated = await updateApiPet(id, updatedPet);
     setPets(pets.map(pet => (pet.id === id ? updated : pet)));
     
