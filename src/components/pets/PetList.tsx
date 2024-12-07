@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Pet, Guardian } from "../../types";
-import { Edit2, Trash2, PlusCircle } from "lucide-react";
+import { Edit2, Trash2, PlusCircle, Eye } from "lucide-react";
 import { PetForm } from "./PetForm";
+import { Link } from "react-router-dom";
 
 interface PetListProps {
   pets: Pet[];
@@ -78,6 +79,12 @@ const PetList: React.FC<PetListProps> = ({
               </p>
             </div>
             <div className="flex gap-2">
+              <Link
+                to={`/pets/${pet.id}`}
+                className="p-2 text-gray-600 hover:text-blue-600 rounded-full hover:bg-blue-50"
+              >
+                <Eye className="h-5 w-5" />
+              </Link>
               <button
                 onClick={() => handleEdit(pet)}
                 className="p-2 text-gray-600 hover:text-blue-600 rounded-full hover:bg-blue-50"

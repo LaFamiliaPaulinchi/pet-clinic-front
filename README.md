@@ -238,6 +238,39 @@ Sample GET `/appointments` response:
 }
 ```
 
+- Upcoming appointments by petId ORDER BY date ASC
+  Sample GET `/appointments/next?petId={petId}`
+
+- Past appointments by petId ORDER BY date DESC
+  Sample GET `/appointments/next?petId={petId}`
+
+  responses:
+
+```json
+[
+  {
+    "id": 1,
+    "date": "2024-01-01",
+    "time": "10:00",
+    "reason": "reason",
+    "pet": {
+      "id": 1,
+      "name": "pet name",
+      "species": "species",
+      "breed": "breed",
+      "age": 1,
+      "guardian": {
+        "id": 1,
+        "name": "guardian name",
+        "email": "asd@gmail.com",
+        "phone": "612345678",
+        "address": "guardian address"
+      }
+    }
+  }
+]
+```
+
 ## 🧪 Development
 
 ### Available Scripts
