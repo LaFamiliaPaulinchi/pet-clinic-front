@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Guardian } from '../../types';
-import { Edit2, Trash2, UserPlus } from 'lucide-react';
-import GuardianForm from './GuardianForm';
+import React, { useState } from "react";
+import { Guardian } from "../../types";
+import { Edit2, Eye, Trash2, UserPlus } from "lucide-react";
+import GuardianForm from "./GuardianForm";
+import { Link } from "react-router-dom";
 
 interface GuardianListProps {
   guardians: Guardian[];
-  onAdd: (guardian: Omit<Guardian, 'id'>) => void;
+  onAdd: (guardian: Omit<Guardian, "id">) => void;
   onUpdate: (id: string, guardian: Partial<Guardian>) => void;
   onDelete: (id: string) => void;
 }
@@ -24,7 +25,7 @@ const GuardianList: React.FC<GuardianListProps> = ({
     setShowForm(true);
   };
 
-  const handleSubmit = (guardianData: Omit<Guardian, 'id'>) => {
+  const handleSubmit = (guardianData: Omit<Guardian, "id">) => {
     if (editingGuardian) {
       onUpdate(editingGuardian.id, guardianData);
     } else {
@@ -64,6 +65,12 @@ const GuardianList: React.FC<GuardianListProps> = ({
               <p className="text-sm text-gray-600">{guardian.phone}</p>
             </div>
             <div className="flex gap-2">
+              <Link
+                to={`/guardians/${guardian.id}`}
+                className="p-2 text-gray-600 hover:text-blue-600 rounded-full hover:bg-blue-50"
+              >
+                <Eye className="h-5 w-5" />
+              </Link>
               <button
                 onClick={() => handleEdit(guardian)}
                 className="p-2 text-gray-600 hover:text-blue-600 rounded-full hover:bg-blue-50"

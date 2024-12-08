@@ -15,6 +15,7 @@ import { useAppointments } from "../../hooks/useAppointments";
 import AppointmentForm from "../appointments/AppointmentForm";
 import { Appointment, Guardian, Pet } from "../../types";
 import {
+  createAppointment,
   getNextAppointmentByPetId,
   getPastAppointmentsByPetId,
 } from "../../api-services/appointment.services";
@@ -65,7 +66,9 @@ const PetDetail: React.FC = () => {
   const handleAddAppointment = (
     appointmentData: Omit<(typeof petAppointments)[0], "id">
   ) => {
-    addAppointment(appointmentData);
+    createAppointment(appointmentData);
+    // addAppointment(appointmentData);
+    fetchPet();
     setShowAppointmentForm(false);
   };
 
@@ -99,7 +102,7 @@ const PetDetail: React.FC = () => {
       </div>
       <div className="flex items-center gap-2 text-gray-600 mb-2">
         <Clock className="h-4 w-4" />
-        <span>{format(appointment.date, "h:mm a")}</span>
+        <span>{appointment.time}</span>
       </div>
       <p className="text-gray-700">{appointment.reason}</p>
       {appointment.notes && (

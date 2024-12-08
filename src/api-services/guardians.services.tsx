@@ -43,3 +43,9 @@ export const getGuardiansByName = async (name: string): Promise<Guardian[]> => {
   console.log(response.data);
   return response.data;
 };
+
+// get guardian by id
+export const getGuardianById = async (id: string): Promise<Guardian> => {
+  const response = await axiosInstance.get<Guardian>(`${API_URL}/${id}`);
+  return response.data;
+};

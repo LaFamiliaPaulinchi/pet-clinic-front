@@ -35,3 +35,11 @@ export const updateApiPet = async (
 export const deleteApiPet = async (id: string): Promise<void> => {
   await axiosInstance.delete(`${API_URL}/${id}`);
 };
+
+// get pets by guardian id
+export const getPetsByGuardianId = async (id: string): Promise<Pet[]> => {
+  const response = await axiosInstance.get<Pet[]>(
+    `${API_URL}?guardianId=${id}`
+  );
+  return response.data;
+};

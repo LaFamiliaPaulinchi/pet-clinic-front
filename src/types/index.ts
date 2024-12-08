@@ -20,6 +20,7 @@ export interface Appointment {
   id: string;
   petId: string;
   date: Date;
+  time: string;
   reason: string;
   status: 'scheduled' | 'completed' | 'cancelled';
   notes?: string;

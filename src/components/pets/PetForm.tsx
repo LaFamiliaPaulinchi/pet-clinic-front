@@ -14,7 +14,6 @@ export const PetForm: React.FC<PetFormProps> = ({
   onSubmit,
   onCancel,
   initialData,
-  guardians,
   onfindGuardian,
 }) => {
   const [formData, setFormData] = useState({

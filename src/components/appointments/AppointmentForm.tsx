@@ -28,7 +28,8 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({
 
     onSubmit({
       petId,
-      date: dateTime,
+      date: format(dateTime, "yyyy-MM-dd"),
+      time: formData.time,
       reason: formData.reason,
       notes: formData.notes,
       status: formData.status,

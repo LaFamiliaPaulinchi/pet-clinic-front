@@ -1,8 +1,7 @@
 import axios from "axios";
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const axiosInstance = axios.create({
-  // baseURL: "https://s3demo.onrender.com", // Cambia esto por tu URL base
-  baseURL: "http://localhost:8080", // Cambia esto por tu URL base
+  baseURL: apiUrl,
   // timeout: 10000, // Tiempo límite de solicitud en milisegundos
   headers: {
     "Content-Type": "application/json",
